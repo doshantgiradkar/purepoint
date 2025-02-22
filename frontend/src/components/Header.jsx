@@ -57,6 +57,7 @@ const Header = () => {
   };
 
   return (
+    <header className='bg-white'>
     <nav className="fixed top-0 w-full z-50 bg-green-700 dark:bg-green-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main Navbar Content */}

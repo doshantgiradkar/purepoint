@@ -67,14 +67,14 @@ const Home = () => {
   ];
     
   return (
-    <div className="bg-gray-100 text-gray-900">
+    <div className="bg-gradient-to-br from-green-50 to-green-100 text-gray-900">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-green-50 to-green-100 px-6 py-16 md:py-24">
+      <section className="relative mx-auto max-w-7xl overflow-hidden bg-gradient-to-br from-green-50 to-green-100 px-6 py-16 md:py-24 h-fit mt-16 ">
         {/* Decorative background elements */}
-        <div className="absolute inset-0 overflow-hidden">
+        {/* <div className="absolute inset-0 overflow-hidden">
           <div className="absolute -right-1/4 -top-1/4 h-96 w-96 rounded-full bg-green-200/30" />
           <div className="absolute -left-1/4 -bottom-1/4 h-96 w-96 rounded-full bg-orange-200/20" />
-        </div>
+        </div> */}
 
         <div className="relative mx-auto max-w-7xl">
           <div className="flex flex-col items-center gap-12 lg:flex-row lg:justify-between">
@@ -126,7 +126,7 @@ const Home = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="relative py-16 bg-white">
+      <section className="relative py-16 bg-gradient-to-br from-gray-50 to-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {stats.map((stat, i) => (
