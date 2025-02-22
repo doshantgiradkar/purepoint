@@ -9,6 +9,7 @@ import Leaderboard from "./pages/Leaderboard";
 import Profile from "./pages/Profile";
 import Error from "./pages/Error";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Complaints from "./pages/Complaints.jsx";
 
 const router = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
         path: "profile/:id",
         element: <Profile />,
       },
+      {
+        path: "complaints",
+        element: <Complaints/>
+      }
     ],
   },
 ]);
