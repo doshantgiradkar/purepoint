@@ -35,7 +35,7 @@ const Contact = () => {
   };
 
   return (
-    <div className="relative min-h-screen bg-white">
+    <div className="relative min-h-screen bg-white mt-2">
       {/* Abstract Background Shapes */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-10">
         <div className="absolute top-0 left-0 w-96 h-96 bg-green-200 rounded-full -translate-x-1/2 -translate-y-1/2" />

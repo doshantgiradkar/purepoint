@@ -13,7 +13,8 @@ import {
   Twitter,
   Instagram,
   Linkedin,
-  ArrowRight
+  ArrowRight,
+  Leaf
 } from 'lucide-react';
 
 const Footer = () => {
@@ -42,7 +43,7 @@ const Footer = () => {
           {/* Brand Section */}
           <div className="space-y-6">
             <div className="flex items-center space-x-2">
-              <img src="/api/placeholder/48/48" alt="PurePoint Logo" className="h-12 w-12" />
+            <Leaf className="h-8 w-8 text-green-600" />
               <span className="text-2xl font-bold">PurePoint</span>
             </div>
             <p className="text-green-100">Together, We Make a Difference!</p>
