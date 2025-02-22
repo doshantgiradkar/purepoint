@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Home,
   Trophy,
@@ -187,6 +187,7 @@ const Header = () => {
         )}
       </div>
     </nav>
+    </header>
   );
 };
 
