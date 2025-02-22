@@ -34,11 +34,10 @@ const Leaderboard = () => {
   const otherUsers = filteredUsers.filter((user) => user.rank > 3);
 
   return (
-    <div className={`min-h-screen ${darkMode ? "bg-gray-900" : "bg-gray-50"} transition-all duration-500`}>
+    <div className={`flex-grow flex flex-col  ${darkMode ? "bg-gray-900" : "bg-gray-50"} transition-all duration-500 `}>
       <div className="max-w-full mx-auto px-4 py-12">
         {/* Tabs */}
-        <div className="w-full flex justify-around mb-12">
-          
+        <div className="w-full flex justify-around mb-12 mt-8">
             <button onClick={() => setActiveTab("warriors")} className="px-8 py-3 text-lg font-medium">
               🌱 Eco-Warriors
             </button>
@@ -49,9 +48,9 @@ const Leaderboard = () => {
         </div>
 
         {/* Top 3 Users */}
-        <div className="flex justify-center items-end gap-8 mb-16">
+        <div className="block justify-center items-end gap-8 mb-16 md:flex">
           {topThree.map((user) => (
-            <div key={user.id} className="p-6 rounded-2xl shadow-lg bg-white text-center">
+            <div key={user.id} className="p-6 m-6 rounded-2xl shadow-lg bg-white text-center">
               <img src={user.profilePic} className="w-24 h-24 rounded-full mx-auto mb-4" alt={user.name} />
               <h3 className="text-xl font-bold">{user.name}</h3>
               <p className="text-sm">Rank #{user.rank}</p>
@@ -63,7 +62,7 @@ const Leaderboard = () => {
         {/* Other Users */}
         <div className="space-y-4">
           {otherUsers.map((user) => (
-            <div key={user.id} className="p-4 rounded-xl flex items-center gap-4 bg-white shadow">
+            <div key={user.id} className="p-4 rounded-xl mx-1/2 flex justify-center items-center gap-4 bg-white shadow">
               <span className="text-lg font-bold">#{user.rank}</span>
               <img src={user.profilePic} className="w-12 h-12 rounded-full border-2 border-green-400" alt={user.name} />
               <div className="flex-1">
