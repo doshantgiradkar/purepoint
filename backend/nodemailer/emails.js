@@ -3,7 +3,6 @@ import {
   WELCOME_EMAIL_TEMPLATE,
   PASSWORD_RESET_SUCCESS_TEMPLATE,
   VERIFICATION_EMAIL_TEMPLATE,
-  SPECIAL_MAIL_TEMPLATE,
 } from "./emailTemplates.js";
 import transporter from "./nodemailer.config.js"; // Assuming you have a nodemailer config setup
 
@@ -15,7 +14,7 @@ dotenv.config();
 export const sendVerificationEmail = async (email, verificationToken) => {
   try {
     const response = await transporter.sendMail({
-      from: `"LinkWeb" <${process.env.GMAIL_USER}>`, // Sender's email address
+      from: `"purepoint" <${process.env.GMAIL_USER}>`, // Sender's email address
       to: email, // Recipient's email
       subject: "Verify your email", // Email subject
       html: VERIFICATION_EMAIL_TEMPLATE.replace(
@@ -38,7 +37,7 @@ export const sendWelcomeEmail = async (email, name) => {
     const clientURL = process.env.CLIENT_URL; 
     const loginURL = `${clientURL}/login`;
     const response = await transporter.sendMail({
-      from: `"LinkWeb" <${process.env.GMAIL_USER}>`, 
+      from: `"Purepoint" <${process.env.GMAIL_USER}>`, 
       to: email, 
       subject: "Welcome to LinkWeb!",
       html: WELCOME_EMAIL_TEMPLATE.replace("{name}", name) 
@@ -56,7 +55,7 @@ export const sendWelcomeEmail = async (email, name) => {
 export const sendPasswordResetEmail = async (email, resetURL) => {
   try {
     const response = await transporter.sendMail({
-      from: `"LinkWeb" <${process.env.GMAIL_USER}>`, // Sender's email address
+      from: `"Purepoint" <${process.env.GMAIL_USER}>`, // Sender's email address
       to: email,
       subject: "Reset your password",
       html: PASSWORD_RESET_REQUEST_TEMPLATE.replace("{resetURL}", resetURL), // HTML email body
@@ -75,7 +74,7 @@ export const sendResetSuccessEmail = async (email, loginURL) => {
     const clientURL = process.env.CLIENT_URL; // Fetch the client URL from environment variables
     const loginURL = `${clientURL}/login`;
     const response = await transporter.sendMail({
-      from: `"LinkWeb" <${process.env.GMAIL_USER}>`, // Sender's email address
+      from: `"Purepoint" <${process.env.GMAIL_USER}>`, // Sender's email address
       to: email, // Recipient's email
       subject: "Password Reset Successful", // Email subject
       html: PASSWORD_RESET_SUCCESS_TEMPLATE.replace("{loginURL}", loginURL), // HTML email body

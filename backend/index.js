@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import connectDB from "./config/dbConnection.js";
-import authRoutes from "./routes/authRoutes.js";
+import userRoutes from "./routes/authRoutes.js";
 
 // Load environment variables
 dotenv.config();
@@ -18,16 +18,16 @@ connectDB();
 // Middleware
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || "http://localhost:5173", // Use environment variable for frontend URL
+    origin: process.env.CLIENT_URL || "http://localhost:5173", 
     credentials: true, 
   })
 );
-app.use(express.json()); // Parse JSON requests
-app.use(express.urlencoded({ extended: true })); // Parse URL-encoded data
+app.use(express.json()); 
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser()); // Parse cookies
 
 // Routes
-app.use("/api/auth", authRoutes); // Authentication routes
+app.use("/api/users", userRoutes); 
 
 // Error handling middleware
 app.use((err, req, res, next) => {
