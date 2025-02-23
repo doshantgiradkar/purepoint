@@ -67,7 +67,7 @@ export default function Donation() {
   };
 
   return (
-    <div className="flex-grow flex mt-4  p-4 sm:p-8">
+    <div className="flex-grow flex min-h-screen p-4 sm:p-8">
       <section className="relative max-w-2xl mx-auto p-6 sm:p-8 rounded-3xl bg-white/80 backdrop-blur-xl border border-green-100 shadow-xl dark:bg-green-800/30 dark:border-green-700/50 transition-all">
         {/* Decorative Elements */}
         <div className="absolute -top-3 -left-3 w-24 h-24 bg-green-100 rounded-full blur-3xl opacity-50 animate-pulse"></div>
