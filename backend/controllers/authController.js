@@ -22,17 +22,14 @@ export const register = async (req, res) => {
   const { email, password, confirmPassword } = req.body;
 
   try {
-    // Validate input
     if (!email || !password || !confirmPassword) {
       throw new Error("All fields are required");
     }
 
-    // Password match validation
     if (password !== confirmPassword) {
       throw new Error("Passwords do not match");
     }
 
-    // Check if user already exists
     const userAlreadyExists = await User.findOne({ email });
     if (userAlreadyExists) {
       return res
@@ -301,7 +298,8 @@ export const changePassword = async (req, res) => {
 
 //Create Profile
 export const createProfile = async (req, res) => {
-  const { userId, fullName, socialMedia, bio } = req.body;
+  const { fullName, bio , username } = req.body;
+  const userId = req.userId;
   const profilePicture = req.file;
 
   let path;
@@ -311,7 +309,7 @@ export const createProfile = async (req, res) => {
 
   try {
     // Validate required fields
-    if (!userId || !fullName || !socialMedia || !profilePicture || !bio) {
+    if (!userId || !fullName || !profilePicture || !bio || !username) {
       throw new Error("All fields are required");
     }
 
@@ -333,7 +331,6 @@ export const createProfile = async (req, res) => {
     // Update user fields
     user.fullName = fullName;
     user.profilePicture = profilePictureUrl;
-    user.socialMedia = socialMedia;
     user.bio = bio;
     user.isProfileComplete = true;
 

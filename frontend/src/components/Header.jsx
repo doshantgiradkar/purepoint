@@ -87,20 +87,7 @@ const Header = () => {
             </div>
 
             <div className="flex items-center space-x-2 sm:space-x-4">
-              {isLoggedIn ? (
-                <div className="relative">
-                  <button
-                    onClick={handleProfileClick}
-                    className="flex items-center space-x-2"
-                  >
-                    
-                    <UserButton />
-                    
-                  </button>
-
-                 
-                </div>
-              ) : (
+              
                 <div className="flex items-center space-x-2 sm:space-x-4">
                   <Link
                     to="/login"
@@ -115,7 +102,6 @@ const Header = () => {
                     Sign Up
                   </Link>
                 </div>
-              )}
 
               <button
                 onClick={handleMenuClick}

@@ -1,13 +1,5 @@
 import mongoose from "mongoose";
 
-// Regular expression for validating social media URLs
-const socialMediaUrlRegex = {
-  instagram: /^https:\/\/(www\.)?instagram\.com(\/.*)?$/,
-  linkedin: /^https:\/\/(www\.)?linkedin\.com(\/.*)?$/,
-  github: /^https:\/\/(www\.)?github\.com(\/.*)?$/,
-  x: /^https:\/\/(www\.)?x\.com(\/.*)?$/,
-};
-
 const userSchema = new mongoose.Schema(
   {
     fullName: {
