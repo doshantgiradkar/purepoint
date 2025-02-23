@@ -37,7 +37,7 @@ const userSchema = new mongoose.Schema(
     rank: { type: Number, default: 0 },
     reports: [{ type: mongoose.Schema.Types.ObjectId, ref: "Report" }],
     resolvedReports: [{ type: mongoose.Schema.Types.ObjectId, ref: "Report" }],
-
+  },
   { timestamps: true }
 );
 
