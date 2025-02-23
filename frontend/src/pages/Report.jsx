@@ -109,7 +109,7 @@ const Report = () => {
   };
 
   return (
-    <div className="container bg-teal-900/70 mt-16 mx-auto p-4 max-w-4xl relative z-0">
+    <div className="container mt-16 mx-auto p-4 max-w-4xl relative z-0">
       <div className="bg-white rounded-lg shadow-lg overflow-hidden">
         <div className="p-6">
           <h2 className="text-2xl font-bold text-gray-800 mb-6">
