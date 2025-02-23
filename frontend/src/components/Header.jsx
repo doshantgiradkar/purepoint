@@ -41,7 +41,7 @@ const Header = () => {
   ];
 
   const profileMenuItems = [
-    { label: "Profile", href: "/profile", icon: User },
+    { label: "Profile", href: "/profile/nfg", icon: User },
     { label: "Settings", href: "/settings", icon: Settings },
     { label: "Logout", href: "#", icon: LogOut },
   ];
@@ -91,13 +91,13 @@ const Header = () => {
                     onClick={handleProfileClick}
                     className="flex items-center space-x-2"
                   >
-                    <Link to="/profile/djhfhbgg">
+                    
                       <img
                         src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%3Fid%3DOIP.abbHwUGf7cWF1KrClYxa5AHaHa%26pid%3DApi&f=1&ipt=05d0cb4c116a13033992c1cb7c061662b8bd57b9d614cd6713782a9c8fcaa76f&ipo=images"
                         alt="Profile"
                         className="w-8 h-8 rounded-full border-2 border-white"
                       />
-                    </Link>
+                    
                   </button>
 
                   {isProfileMenuOpen && (
