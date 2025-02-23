@@ -10,6 +10,7 @@ import Profile from "./pages/Profile";
 import Error from "./pages/Error";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Complaints from "./pages/Complaints.jsx";
+import Donation from "./pages/Donation.jsx";
 
 const router = createBrowserRouter([
   {
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
       {
         path: "complaints",
         element: <Complaints/>
+      },
+      {
+        path: "donation",
+        element: <Donation/>
       }
     ],
   },
