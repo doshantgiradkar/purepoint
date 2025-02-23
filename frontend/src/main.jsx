@@ -12,6 +12,12 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Complaints from "./pages/Complaints.jsx";
 import Donation from "./pages/Donation.jsx";
 
+const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
+
+if (!PUBLISHABLE_KEY) {
+  throw new Error("Missing Publishable Key")
+}
+
 const router = createBrowserRouter([
   {
     path: "/",
