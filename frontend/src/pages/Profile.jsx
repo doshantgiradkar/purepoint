@@ -13,7 +13,7 @@ const Profile = () => {
             
             {/* Profile Image */}
             <img
-              src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%3Fid%3DOIP.abbHwUGf7cWF1KrClYxa5AHaHa%26pid%3DApi&f=1&ipt=05d0cb4c116a13033992c1cb7c061662b8bd57b9d614cd6713782a9c8fcaa76f&ipo=images"
+            src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%3Fid%3DOIP.abbHwUGf7cWF1KrClYxa5AHaHa%26pid%3DApi&f=1&ipt=05d0cb4c116a13033992c1cb7c061662b8bd57b9d614cd6713782a9c8fcaa76f&ipo=images"
               alt="Profile"
               className="w-32 h-32 rounded-full border-4 border-white shadow-md transition-all duration-300 group-hover:scale-105"
             />
@@ -29,6 +29,19 @@ const Profile = () => {
           <p className="text-gray-600 mt-3 text-base leading-relaxed px-4">
             Passionate about solving waste management issues 🚀
           </p>
+        </div>
+
+        {/* Complaint Register & Resolved Section */}
+        <div className="mt-6 flex justify-center gap-6">
+          {/* Complaint Register Button */}
+          <button className="px-6 py-2 bg-gray-200 text-gray-800 rounded-lg shadow-md transition-all duration-300 hover:bg-green-500 hover:text-white">
+            Register Complaint
+          </button>
+
+          {/* Complaints Resolved Button */}
+          <button className="px-6 py-2 bg-gray-200 text-gray-800 rounded-lg shadow-md transition-all duration-300 hover:bg-green-500 hover:text-white">
+            Resolved Complaints
+          </button>
         </div>
       </div>
     </div>
