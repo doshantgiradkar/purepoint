@@ -1,6 +1,6 @@
 import bcryptjs from "bcryptjs";
 import crypto from "crypto";
-import { User } from "../models/userModel.js";
+import { Authority } from "../models/authorityModel.js";
 import { generateTokenSetCookie } from "../utils/generateTokenSetCookie.js";
 import {
   sendPasswordResetEmail,
@@ -33,8 +33,8 @@ export const register = async (req, res) => {
     }
 
     // Check if user already exists
-    const userAlreadyExists = await User.findOne({ email });
-    if (userAlreadyExists) {
+    const authorityAlreadyExists = await Authority.findOne({ email });
+    if (authorityAlreadyExists) {
       return res
         .status(400)
         .json({ success: false, message: "User already exists" });
@@ -47,7 +47,7 @@ export const register = async (req, res) => {
     const verificationToken = Math.floor(100000 + Math.random() * 900000).toString();
 
     // Create new user object
-    const user = new User({
+    const user = new Authority({
       email,
       password: hashedPassword,
       verificationToken,
@@ -83,7 +83,7 @@ export const register = async (req, res) => {
 export const verifyEmail = async (req, res) => {
   const { code } = req.body;
   try {
-    const user = await User.findOne({
+    const user = await Authority.findOne({
       verificationToken: code,
       verificationTokenExpiresAt: { $gt: Date.now() },
     });
@@ -120,7 +120,7 @@ export const verifyEmail = async (req, res) => {
 export const login = async (req, res) => {
   const { email, password } = req.body;
   try {
-    const user = await User.findOne({ email });
+    const user = await Authority.findOne({ email });
 
     if (!user) {
       return res
@@ -168,7 +168,7 @@ export const logout = async (req, res) => {
 export const forgotPassword = async (req, res) => {
   const { email } = req.body;
   try {
-    const user = await User.findOne({ email });
+    const user = await Authority.findOne({ email });
     if (!user) {
       return res
         .status(400)
@@ -207,7 +207,7 @@ export const resetPassword = async (req, res) => {
   const { token } = req.params;
   const { password } = req.body;
   try {
-    const user = await User.findOne({
+    const user = await Authority.findOne({
       resetPasswordToken: token,
       resetPasswordExpiresAt: { $gt: Date.now() },
     });
@@ -239,7 +239,7 @@ export const resetPassword = async (req, res) => {
 // Check for authenticated user
 export const checkAuth = async (req, res) => {
   try {
-    const user = await User.findById(req.userId).select("-password");
+    const user = await Authority.findById(req.userId).select("-password");
     if (!user) {
       return res
         .status(400)
@@ -265,7 +265,7 @@ export const changePassword = async (req, res) => {
 
   try {
     // Find the user by ID
-    const user = await User.findById(userId).select("+password");
+    const user = await Authority.findById(userId).select("+password");
     if (!user) {
       return res
         .status(404)
@@ -301,7 +301,7 @@ export const changePassword = async (req, res) => {
 
 //Create Profile
 export const createProfile = async (req, res) => {
-  const { userId, fullName, bio } = req.body;
+  const { userId, fullName, bio, longitude, latitude } = req.body;
   const profilePicture = req.file;
 
   let path;
@@ -311,13 +311,12 @@ export const createProfile = async (req, res) => {
 
   try {
     // Validate required fields
-    if (!userId || !fullName || !profilePicture || !bio) {
-
+    if (!userId || !fullName || !profilePicture || !bio || !longitude || !latitude) {
       throw new Error("All fields are required");
     }
 
     // Find the user
-    const user = await User.findById(userId);
+    const user = await Authority.findById(userId);
     if (!user) {
       return res
         .status(404)
@@ -335,6 +334,8 @@ export const createProfile = async (req, res) => {
     user.fullName = fullName;
     user.profilePicture = profilePictureUrl;
     user.bio = bio;
+    user.location.longitude = longitude;
+    user.location.latitude = latitude;
     user.isProfileComplete = true;
 
     // Save updated user
@@ -382,7 +383,7 @@ export const updateProfile = async (req, res) => {
     }
 
     // Find the user
-    const user = await User.findById(userId);
+    const user = await Authority.findById(userId);
     if (!user) {
       return res
         .status(404)
@@ -452,7 +453,7 @@ export const deleteProfile = async (req, res) => {
 
   try {
     // Find the user by ID
-    const user = await User.findById(userId);
+    const user = await Authority.findById(userId);
     if (!user) {
       return res
         .status(404)
@@ -471,7 +472,7 @@ export const deleteProfile = async (req, res) => {
     const profilePictureUrl = user.profilePicture;
 
     // Delete the user
-    await User.findByIdAndDelete(userId);
+    await Authority.findByIdAndDelete(userId);
 
     // Clear the authentication cookie
     res.clearCookie("token", {
@@ -498,7 +499,7 @@ export const deleteProfile = async (req, res) => {
 
 export const getAllUsers = async (req, res) => {
   try {
-    const users = await User.find().select("-password");
+    const users = await Authority.find().select("-password");
     res.status(200).json({ success: true, users });
   } catch (error) {
     console.error("Error in getAllUsers:", error);
