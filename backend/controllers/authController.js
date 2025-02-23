@@ -312,6 +312,7 @@ export const createProfile = async (req, res) => {
   try {
     // Validate required fields
     if (!userId || !fullName || !profilePicture || !bio) {
+
       throw new Error("All fields are required");
     }
 

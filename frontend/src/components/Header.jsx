@@ -15,6 +15,8 @@ import {
   Moon,
   Leaf,
 } from "lucide-react";
+import FloatingButton from "./Floating";
+import { UserButton } from "@clerk/clerk-react";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -92,28 +94,11 @@ const Header = () => {
                     className="flex items-center space-x-2"
                   >
                     
-                      <img
-                        src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%3Fid%3DOIP.abbHwUGf7cWF1KrClYxa5AHaHa%26pid%3DApi&f=1&ipt=05d0cb4c116a13033992c1cb7c061662b8bd57b9d614cd6713782a9c8fcaa76f&ipo=images"
-                        alt="Profile"
-                        className="w-8 h-8 rounded-full border-2 border-white"
-                      />
+                    <UserButton />
                     
                   </button>
 
-                  {isProfileMenuOpen && (
-                    <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-green-800 rounded-lg shadow-lg py-2 origin-top-right">
-                      {profileMenuItems.map(({ label, href, icon: Icon }) => (
-                        <Link
-                          key={label}
-                          to={href}
-                          className="flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-green-700"
-                        >
-                          <Icon className="w-4 h-4" />
-                          <span>{label}</span>
-                        </Link>
-                      ))}
-                    </div>
-                  )}
+                 
                 </div>
               ) : (
                 <div className="flex items-center space-x-2 sm:space-x-4">

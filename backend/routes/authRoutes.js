@@ -22,6 +22,7 @@ const router = express.Router();
 // Auth routes
 router.post("/register", register);
 router.post("/login", login);
+router.post("/logout", logout);
 
 // Email verification and password management routes
 router.post("/verify-email", verifyEmail);
