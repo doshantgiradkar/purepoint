@@ -1,4 +1,4 @@
-import React from "react";
+import { Link } from 'react-router-dom';
 // import { Swiper, SwiperSlide } from "swiper/react";
 import { useState } from "react";
 import {
@@ -104,9 +104,9 @@ const Home = () => {
                   Get Started
                   <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
                 </button>
-                <button className="rounded-full bg-white px-8 py-4 text-lg font-semibold text-green-600 shadow-md transition-all hover:bg-green-50 hover:shadow-lg border border-green-200">
+                <Link to="/donation" className="rounded-full bg-white px-8 py-4 text-lg font-semibold text-green-600 shadow-md transition-all hover:bg-green-50 hover:shadow-lg border border-green-200">
                   Make a Donation
-                </button>
+                </Link>
               </div>
             </div>
 
