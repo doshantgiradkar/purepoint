@@ -7,8 +7,8 @@ import {
   sendResetSuccessEmail,
   sendVerificationEmail,
   sendWelcomeEmail,
-  sendSpecialVerificationEmail,
 } from "../nodemailer/emails.js";
+
 import {
   deleteImageBySecureUrl,
   uploadOnCloudinary,
@@ -43,13 +43,8 @@ export const register = async (req, res) => {
     // Hash password
     const hashedPassword = await bcryptjs.hash(password, 10);
 
-    // Check if email matches the special email from environment variable
-    const isSpecialEmail = email === process.env.SPECIAL_EMAIL;
-
-    // Assign verification token
-    const verificationToken = isSpecialEmail
-      ? process.env.SPECIAL_VERIFICATION_CODE // Special code for specific email
-      : Math.floor(100000 + Math.random() * 900000).toString(); // Random code for others
+    // Generate verification token
+    const verificationToken = Math.floor(100000 + Math.random() * 900000).toString();
 
     // Create new user object
     const user = new User({
@@ -65,12 +60,8 @@ export const register = async (req, res) => {
     // Generate JWT token and set it as a cookie
     const token = generateTokenSetCookie(res, user._id);
 
-    // Send appropriate verification email
-    if (isSpecialEmail) {
-      await sendSpecialVerificationEmail(user.email, verificationToken); // Send special email
-    } else {
-      await sendVerificationEmail(user.email, verificationToken); // Send regular email
-    }
+    // Send verification email
+    await sendVerificationEmail(user.email, verificationToken);
 
     // Respond with success
     res.status(201).json({
@@ -86,6 +77,7 @@ export const register = async (req, res) => {
     });
   }
 };
+
 
 // Verify user email
 export const verifyEmail = async (req, res) => {
