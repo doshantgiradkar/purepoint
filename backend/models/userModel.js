@@ -37,12 +37,9 @@ const userSchema = new mongoose.Schema(
     rank: { type: Number, default: 0 },
     reports: [{ type: mongoose.Schema.Types.ObjectId, ref: "Report" }],
     resolvedReports: [{ type: mongoose.Schema.Types.ObjectId, ref: "Report" }],
-    resetPasswordToken: String, 
-    resetPasswordExpiresAt: Date, 
-    verificationToken: String,
-    verificationTokenExpiresAt: Date, 
-  },
+
   { timestamps: true }
 );
 
+// Create the User model
 export const User = mongoose.model("User", userSchema);
