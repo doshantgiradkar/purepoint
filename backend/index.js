@@ -1,23 +1,44 @@
 import express from "express";
 import dotenv from "dotenv";
-import mongoose from "mongoose";
-import userRoutes from "./src/routes/user.routes.js";
-import authorityRoutes from "./src/routes/authority.routes.js";
-import connectDB from "./src/config/dbConfig.js";
+import cors from "cors";
+import cookieParser from "cookie-parser";
+import connectDB from "./config/dbConnection.js";
+import authRoutes from "./routes/authRoutes.js";
 
+// Load environment variables
 dotenv.config();
+
+// Initialize Express app
 const app = express();
+const PORT = process.env.PORT || 3000;
+
+// Database connection
+connectDB();
 
 // Middleware
-app.use(express.json());  // 🟢 Enable JSON parsing for request bodies
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL || "http://localhost:5173", // Use environment variable for frontend URL
+    credentials: true, 
+  })
+);
+app.use(express.json()); // Parse JSON requests
+app.use(express.urlencoded({ extended: true })); // Parse URL-encoded data
+app.use(cookieParser()); // Parse cookies
 
 // Routes
-app.use("/api/users", userRoutes);
-app.use("/api/authorities", authorityRoutes);
+app.use("/api/auth", authRoutes); // Authentication routes
 
-// Connect to MongoDB
-const PORT = process.env.PORT || 5000;
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({
+    status: "error",
+    message: "Something went wrong! Please try again later.",
+  });
+});
+
+// Start the server
 app.listen(PORT, () => {
-    connectDB();
-    console.log(`Server running on port ${PORT}`);
+  console.log(`Server is running on port: ${PORT}`);
 });
