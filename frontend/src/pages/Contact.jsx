@@ -182,14 +182,6 @@ const Contact = () => {
           </div>
         </div>
       </div>
-
-      {/* Live Chat Button */}
-      <button 
-        onClick={() => setShowChat(!showChat)}
-        className="fixed bottom-8 right-8 bg-green-600 text-white p-4 rounded-full shadow-lg hover:bg-green-700 transform hover:-translate-y-1 transition-all"
-      >
-        <MessageCircle className="w-6 h-6" />
-      </button>
     </div>
   );
 };
