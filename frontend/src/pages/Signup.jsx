@@ -1,35 +1,55 @@
-import { useState } from 'react';
-import { ArrowRight, Mail, Lock, UserCircle } from 'lucide-react';
+import { useState } from "react";
+import { ArrowRight, Mail, Lock, UserCircle } from "lucide-react";
+import { useGlobalContext } from "../../hooks/useGlobalContext";
 
-const SignUpPage = () => {
+const SignUp = () => {
+  const { register } = useGlobalContext(); // Get the register function from AuthContext
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-    confirmPassword: '',
-    role: 'normal'
+    email: "",
+    password: "",
+    confirmPassword: "",
+    role: "user",
   });
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    if (formData.password !== formData.confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
+
     setIsLoading(true);
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    setIsLoading(false);
+    try {
+      await register({
+        email: formData.email,
+        password: formData.password,
+        confirmPassword: formData.confirmPassword,
+        role: formData.role,
+      });
+    } catch (error) {
+      console.error("Registration failed:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <div className="mt-8 w-full min-h-screen bg-gradient-to-br from-green-50 to-green-100 flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-8 transform transition-all duration-300 hover:scale-[1.02]">
-        <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center">Create Account</h1>
-        
+        <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center">
+          Create Account
+        </h1>
+
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="relative">
             <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
             <input
               type="email"
-              name='email'
+              name="email"
               value={formData.email}
-              onChange={(e) => setFormData({...formData, email: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               placeholder="Enter your email"
               className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-green-600 focus:border-transparent transition-all duration-300"
               required
@@ -40,10 +60,10 @@ const SignUpPage = () => {
             <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
             <input
               type="password"
+              name="password"
               value={formData.password}
-              onChange={(e) => setFormData({...formData, password: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
               placeholder="Enter your password"
-              name='password'
               className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-green-600 focus:border-transparent transition-all duration-300"
               required
             />
@@ -53,10 +73,10 @@ const SignUpPage = () => {
             <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
             <input
               type="password"
+              name="confirmPassword"
               value={formData.confirmPassword}
-              onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
               placeholder="Confirm password"
-              name='confirmPassword'
               className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-green-600 focus:border-transparent transition-all duration-300"
               required
             />
@@ -65,9 +85,9 @@ const SignUpPage = () => {
           <div className="relative">
             <UserCircle className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
             <select
+              name="role"
               value={formData.role}
-              onChange={(e) => setFormData({...formData, role: e.target.value})}
-              name='role'
+              onChange={(e) => setFormData({ ...formData, role: e.target.value })}
               className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-green-600 focus:border-transparent transition-all duration-300 appearance-none bg-white"
             >
               <option value="user">Normal User</option>
@@ -95,7 +115,7 @@ const SignUpPage = () => {
         </form>
 
         <p className="text-center mt-6 text-gray-600">
-          Already have an account?{' '}
+          Already have an account?{" "}
           <a href="/login" className="text-green-600 hover:text-emerald-600 transition-colors duration-300">
             Login
           </a>
@@ -105,4 +125,4 @@ const SignUpPage = () => {
   );
 };
 
-export default SignUpPage;
+export default SignUp;

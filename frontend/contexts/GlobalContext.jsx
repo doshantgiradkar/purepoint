@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { GlobalContext } from "../hooks/useGlobalContext";
 
-const SERVER_URL = `${import.meta.env.VITE_SERVER_URL}/api/auth`;
+const SERVER_URL = `${import.meta.env.VITE_SERVER_URL}users`;
 // Create a provider component
 export const ContextProvider = ({ children }) => {
   const navigate = useNavigate();
@@ -42,7 +42,8 @@ export const ContextProvider = ({ children }) => {
     setIsLoading(true);
     setMessage(null);
     setError(null);
-
+    console.log(data);
+    console.log(SERVER_URL)
     try {
       const response = await axios.post(`${SERVER_URL}/register`, data, {
         withCredentials: true,
