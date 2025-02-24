@@ -93,7 +93,7 @@ export default function AccountPage() {
         </div>
 
         <div>
-          <label className="block text-gray-600">Email (Cannot be changed)</label>
+          <label className="block text-gray-600">Email</label>
           <input
             type="email"
             name="email"
