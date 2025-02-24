@@ -12,7 +12,9 @@ import {
   deleteProfile,
   changePassword,
   getAllUsers,
-  getUser
+  getUser,
+  getAuthority,
+  getUserById
 } from "../controllers/authController.js";
 import { verifyToken } from "../middleware/authMiddleware.js";
 import { upload } from "../middleware/multerMiddleware.js";
@@ -39,4 +41,6 @@ router.post("/delete-profile", verifyToken, deleteProfile); // Delete profile
 
 router.get("/get-all-users", getAllUsers); // Get all users
 router.get("/", getUser);
+router.get("/get-all-authorities", getAuthority);
+router.get("/byId/:id", getUserById);
 export default router;

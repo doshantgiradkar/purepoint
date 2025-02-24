@@ -29,7 +29,6 @@ const compalintsSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Authority",
       default: undefined,
-      required: true,
     },
     locaiton: {
       longitude: {
@@ -59,4 +58,4 @@ const compalintsSchema = new mongoose.Schema(
 );
 
 // Create the User model
-export const Complaints = mongoose.model("Complaints", compalintsSchema);
+export const Complaint = mongoose.model("Complaint", compalintsSchema);
