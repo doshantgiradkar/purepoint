@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Droplet, Shield, Check, Copy, QrCode, Sparkles, ArrowRight } from 'lucide-react';
+import { Droplet, Shield, Check, Copy, QrCode, Sparkles } from 'lucide-react';
+import { QRCode } from 'react-qr-code'; // Using react-qr-code instead of qrcode.react
 
 const Confetti = () => {
   return (
@@ -21,7 +22,7 @@ const Confetti = () => {
 };
 
 const Donation = () => {
-  const [selectedAmount, setSelectedAmount] = useState(40);
+  const [selectedAmount, setSelectedAmount] = useState(null);
   const [customAmount, setCustomAmount] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [qrLoading, setQrLoading] = useState(false);
@@ -41,10 +42,14 @@ const Donation = () => {
   const validateAmount = (value) => {
     const amount = parseInt(value);
     if (!value) {
-      setErrorMessage('');
+      setErrorMessage('Please enter an amount');
       return false;
     }
-    if (isNaN(amount) || amount < 10) {
+    if (isNaN(amount)) {
+      setErrorMessage('Please enter a valid number');
+      return false;
+    }
+    if (amount < 10) {
       setErrorMessage('Minimum donation is ₹10');
       return false;
     }
@@ -53,10 +58,8 @@ const Donation = () => {
   };
 
   const handleGenerateQR = async () => {
-    if (!selectedAmount && !customAmount) {
-      setErrorMessage('Please select or enter an amount');
-      return;
-    }
+    const amount = selectedAmount || customAmount;
+    if (!validateAmount(amount)) return;
 
     setQrLoading(true);
     setTimeout(() => {
@@ -68,17 +71,27 @@ const Donation = () => {
   };
 
   const copyUPI = () => {
-    navigator.clipboard.writeText(upiId);
+    const textField = document.createElement('textarea');
+    textField.innerText = upiId;
+    document.body.appendChild(textField);
+    textField.select();
+    document.execCommand('copy');
+    textField.remove();
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const getPaymentURI = () => {
+    const amount = selectedAmount || customAmount;
+    return `upi://pay?pa=${upiId}&pn=PurePoint&am=${amount}&cu=INR`;
+  };
+
   return (
-    <div className="min-h-screen relative overflow-hidden">
+    <div className="w-full min-h-screen relative overflow-hidden">
       {/* Background Image and Overlay */}
       <div className="absolute inset-0 z-0">
         <img
-          src="/api/placeholder/1920/1080"
+          src="/homepage_image2.jpg" // Ensure this image exists in the public folder
           alt="Clean water impact"
           className="w-full h-full object-cover"
         />
@@ -113,12 +126,12 @@ const Donation = () => {
                 Choose your contribution amount
               </label>
               <div className="grid grid-cols-2 gap-3">
-                {amounts.map(({ value }) => (
+                {amounts.map(({ value, impact }) => (
                   <button
                     key={value}
                     onClick={() => {
                       setSelectedAmount(value);
-                      setCustomAmount('');
+                      setCustomAmount(value.toString());
                       setErrorMessage('');
                     }}
                     className={`p-4 rounded-xl border-2 transition-all ${
@@ -127,9 +140,7 @@ const Donation = () => {
                         : 'border-gray-200 hover:border-teal-200'
                     }`}>
                     <div className="font-bold text-xl">₹{value}</div>
-                    <div className="text-sm text-gray-600">
-                      Helps {amounts.find((a) => a.value === value)?.impact}
-                    </div>
+                    <div className="text-sm text-gray-600">Helps {impact}</div>
                   </button>
                 ))}
               </div>
@@ -139,7 +150,7 @@ const Donation = () => {
             <div className="mb-8">
               <input
                 type="number"
-                placeholder="Enter custom amount"
+                placeholder="Enter custom amount (min ₹10)"
                 value={customAmount}
                 onChange={(e) => {
                   setCustomAmount(e.target.value);
@@ -151,6 +162,7 @@ const Donation = () => {
                     ? 'border-red-300 bg-red-50'
                     : 'border-gray-200 focus:border-teal-500'
                 }`}
+                min="10"
               />
               {errorMessage && <p className="text-red-500 text-sm mt-2">{errorMessage}</p>}
             </div>
@@ -158,7 +170,7 @@ const Donation = () => {
             {/* Generate QR Button */}
             <button
               onClick={handleGenerateQR}
-              disabled={qrLoading}
+              disabled={qrLoading || (!selectedAmount && !customAmount)}
               className="w-full bg-teal-600 hover:bg-teal-700 text-white font-semibold py-4 rounded-xl mb-6 transition-all flex items-center justify-center gap-2 disabled:opacity-70">
               {qrLoading ? (
                 <>
@@ -178,7 +190,7 @@ const Donation = () => {
               <div className="mt-6 p-6 bg-gray-50 rounded-xl border border-gray-200 animate-fade-up">
                 <div className="flex flex-col items-center gap-6">
                   <div className="p-4 bg-white rounded-lg shadow-lg">
-                    <img src="/api/placeholder/200/200" alt="QR Code" className="w-48 h-48" />
+                    <QRCode value={getPaymentURI()} size={192} level="H" fgColor="#0d9488" />
                   </div>
 
                   <button
