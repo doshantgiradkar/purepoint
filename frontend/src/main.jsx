@@ -1,7 +1,6 @@
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
-import Home from "./pages/Home";
 import About from "./pages/About";
 import Report from "./pages/Report";
 import Contact from "./pages/Contact";
@@ -18,6 +17,7 @@ import Signup from "./pages/Signup.jsx";
 import VerifyOTP from "./pages/VerifyOTP.jsx";
 import ForgotPassword from "./pages/ForgotPassword.jsx";
 import ResetPassword from "./pages/ResetPassword.jsx";
+import { Home } from "lucide-react";
 const router = createBrowserRouter([
   {
     path: "/",
