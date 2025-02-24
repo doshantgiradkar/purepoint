@@ -1,6 +1,7 @@
 import bcryptjs from "bcryptjs";
 import crypto from "crypto";
 import { User } from "../models/userModel.js";
+import { Complaints } from "../models/complaintsModel.js";
 import { generateTokenSetCookie } from "../utils/generateTokenSetCookie.js";
 import {
   sendPasswordResetEmail,
@@ -507,3 +508,17 @@ export const getAllUsers = async (req, res) => {
     res.status(500).json({ success: false, message: "Error getting users" });
   }
 };
+
+
+export const getUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.cookies.userId).select("-password");
+    const claimed = await Complaints.find({ filedby: req.cookies.userId, isClaimed: true });
+    user.credits = claimed.length * 10;
+    user.save();
+    res.status(200).json({ success: true, user });
+  } catch (error) {
+    console.error("Error in getUser:", error);
+    res.status(500).json({ success: false, message: "Error getting user" });
+  }
+}

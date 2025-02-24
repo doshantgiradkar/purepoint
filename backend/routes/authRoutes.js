@@ -12,6 +12,7 @@ import {
   deleteProfile,
   changePassword,
   getAllUsers,
+  getUser
 } from "../controllers/authController.js";
 import { verifyToken } from "../middleware/authMiddleware.js";
 import { upload } from "../middleware/multerMiddleware.js";
@@ -37,4 +38,5 @@ router.post("/edit-profile", upload.single("profilePicture"), verifyToken, updat
 router.post("/delete-profile", verifyToken, deleteProfile); // Delete profile
 
 router.get("/get-all-users", getAllUsers); // Get all users
+router.get("/", getUser);
 export default router;
