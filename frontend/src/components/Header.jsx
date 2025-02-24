@@ -16,7 +16,7 @@ import {
   Leaf,
 } from "lucide-react";
 import FloatingButton from "./Floating";
-import { UserButton } from "@clerk/clerk-react";
+// import { UserButton } from "@clerk/clerk-react";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

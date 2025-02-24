@@ -11,6 +11,8 @@ import Error from "./pages/Error";
 import Complaints from "./pages/Complaints.jsx";
 import Donation from "./pages/Donation.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Login from "./pages/Login.jsx";
+import Signup from "./pages/Signup.jsx";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +26,9 @@ const router = createBrowserRouter([
       { path: "leaderboard", element: <Leaderboard /> },
       { path: "profile/:id", element: <Profile /> },
       { path: "donation", element: <Donation /> },
+      { path: "login", element: <Login /> },
+      { path: "signup", element: <Signup /> },
+
       {
         path: "report",
         element: <Report />,
