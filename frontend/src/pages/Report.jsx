@@ -37,8 +37,8 @@ const Report = () => {
   const mapRef = useRef(null);
 
   useEffect(() => {
-    // Scroll to top when the component mounts
-    window.scrollTo(0, 0);
+    // Smooth scroll to top when the component mounts
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -144,7 +144,7 @@ const Report = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full py-2 px-4 rounded-md text-white font-medium bg-blue-500 hover:bg-blue-600 transition-colors">
+              className="w-full py-2 px-4 rounded-md text-white font-medium bg-green-500 hover:bg-green-600 transition-colors">
               Submit Report
             </button>
           </form>
