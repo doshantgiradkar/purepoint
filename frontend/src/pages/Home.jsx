@@ -197,7 +197,7 @@ const Home = () => {
                 <div className="relative">
                   <div className="inline-block rounded-full p-1 bg-gradient-to-br from-green-200 to-green-100">
                     <img
-                      src="/api/placeholder/100/100"
+                      src="/sara_johnson.jpeg"
                       alt={`Contributor ${i + 1}`}
                       className="w-24 h-24 rounded-full object-cover"
                     />
