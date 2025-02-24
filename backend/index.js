@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+import complaintRouter from "./routes/complaintsRoutes.js";
 import cookieParser from "cookie-parser";
 import connectDB from "./config/dbConnection.js";
 import userRoutes from "./routes/authRoutes.js";
@@ -29,6 +30,7 @@ app.use(cookieParser()); // Parse cookies
 
 // Routes
 app.use("/api/users", userRoutes); 
+app.use("/api/", complaintRouter); 
 
 // Error handling middleware
 app.use((err, req, res, next) => {

@@ -1,7 +1,8 @@
 import bcryptjs from "bcryptjs";
+import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import { User } from "../models/userModel.js";
-import { Complaints } from "../models/complaintsModel.js";
+import { Complaint } from "../models/complaintsModel.js";
 import { generateTokenSetCookie } from "../utils/generateTokenSetCookie.js";
 import {
   sendPasswordResetEmail,
@@ -17,6 +18,7 @@ import {
 import fs from "fs";
 import dotenv from "dotenv";
 dotenv.config();
+
 
 // Register new user
 export const register = async (req, res) => {
@@ -509,12 +511,12 @@ export const getAllUsers = async (req, res) => {
   }
 };
 
-
 export const getUser = async (req, res) => {
   try {
-    const user = await User.findById(req.cookies.userId).select("-password");
-    const claimed = await Complaints.find({ filedby: req.cookies.userId, isClaimed: true });
-    user.credits = claimed.length * 10;
+    let cookie = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
+    const user = await User.findOne({_id: cookie.userId}).select("-password");
+    const claimed = await Complaint.find({ filedby: cookie.userId, isClaimed: true });
+    user.credits = parseInt(claimed.length) * 10;
     user.save();
     res.status(200).json({ success: true, user });
   } catch (error) {
@@ -522,3 +524,32 @@ export const getUser = async (req, res) => {
     res.status(500).json({ success: false, message: "Error getting user" });
   }
 }
+
+export const getAuthority = async (req, res) => {
+  try {
+    let cookie = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
+    const user = await User.findOne({role: "authority"}).select("-password");
+    const claimed = await Complaint.find({ filedby: cookie.userId, isClaimed: true });
+    user.credits = parseInt(claimed.length) * 10;
+    user.save();
+    res.status(200).json({ success: true, user });
+  } catch (error) {
+    console.error("Error in getUser:", error);
+    res.status(500).json({ success: false, message: "Error getting user" });
+  }
+}
+
+export const getUserById = async (req, res) => {
+  try {
+    let { id } = req.params;
+    const user = await User.findOne({_id: id}).select("-password");
+    const claimed = await Complaint.find({ filedby: id, isClaimed: true });
+    user.credits = parseInt(claimed.length) * 10;
+    user.save();
+    res.status(200).json({ success: true, user });
+  } catch (error) {
+    console.error("Error in getUser:", error);
+    res.status(500).json({ success: false, message: "Error getting user" });
+  }
+}
+
