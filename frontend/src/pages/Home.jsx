@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 // import { Swiper, SwiperSlide } from "swiper/react";
-import { useState } from "react";
+import { useState } from 'react';
 import {
   ArrowRight,
   Leaf,
@@ -14,10 +14,9 @@ import {
   ChevronRight,
   Star,
 } from 'lucide-react';
-import "swiper/css";
+import 'swiper/css';
 
-const Home = () => {
-
+const Home = ({isLoggedIn}) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const nextTestimonial = () => {
@@ -36,46 +35,55 @@ const Home = () => {
   ];
 
   const steps = [
-    { text: 'Report garbage issues with location and images', desc: 'Easy reporting through our mobile app' },
-    { text: 'Assigned authorities take action to clean the area', desc: 'Quick response from local teams' },
-    { text: 'Track progress and rate the service provided', desc: 'Real-time updates and feedback' },
-    { text: 'Earn rewards and recognition for contributions', desc: 'Get points and community badges' },
+    {
+      text: 'Report garbage issues with location and images',
+      desc: 'Easy reporting through our mobile app',
+    },
+    {
+      text: 'Assigned authorities take action to clean the area',
+      desc: 'Quick response from local teams',
+    },
+    {
+      text: 'Track progress and rate the service provided',
+      desc: 'Real-time updates and feedback',
+    },
+    {
+      text: 'Earn rewards and recognition for contributions',
+      desc: 'Get points and community badges',
+    },
   ];
-  
+
   const testimonials = [
     {
-      quote: "PurePoint has transformed how we handle waste management in our community. The app is intuitive, and the response time is incredible!",
-      author: "Sarah Martinez",
-      role: "Community Leader",
+      quote:
+        'PurePoint has transformed how we handle waste management in our community. The app is intuitive, and the response time is incredible!',
+      author: 'Sarah Martinez',
+      role: 'Community Leader',
       rating: 5,
-      location: "San Francisco"
+      location: 'San Francisco',
     },
     {
-      quote: "Thanks to PurePoint, our neighborhood is noticeably cleaner. The reward system keeps everyone motivated to participate!",
-      author: "Michael Chen",
-      role: "Resident",
+      quote:
+        'Thanks to PurePoint, our neighborhood is noticeably cleaner. The reward system keeps everyone motivated to participate!',
+      author: 'Michael Chen',
+      role: 'Resident',
       rating: 5,
-      location: "Boston"
+      location: 'Boston',
     },
     {
-      quote: "As a local authority, this platform has streamlined our waste management process. The real-time reporting is a game-changer.",
-      author: "David Thompson",
-      role: "City Official",
+      quote:
+        'As a local authority, this platform has streamlined our waste management process. The real-time reporting is a game-changer.',
+      author: 'David Thompson',
+      role: 'City Official',
       rating: 5,
-      location: "Chicago"
-    }
+      location: 'Chicago',
+    },
   ];
-    
+
   return (
     <div className="w-full bg-gradient-to-br from-green-50 to-green-100 text-gray-900">
       {/* Hero Section */}
-      <section className="relative mx-auto max-w-7xl overflow-hidden bg-gradient-to-br from-green-50 to-green-100 px-6 py-16 md:py-24 h-fit mt-16 ">
-        {/* Decorative background elements */}
-        {/* <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -right-1/4 -top-1/4 h-96 w-96 rounded-full bg-green-200/30" />
-          <div className="absolute -left-1/4 -bottom-1/4 h-96 w-96 rounded-full bg-orange-200/20" />
-        </div> */}
-
+      <section className="relative mx-auto max-w-7xl overflow-hidden bg-gradient-to-br from-green-50 to-green-100 px-6 py-16 md:py-24 h-fit mt-16">
         <div className="relative mx-auto max-w-7xl">
           <div className="flex flex-col items-center gap-12 lg:flex-row lg:justify-between">
             {/* Content Column */}
@@ -100,11 +108,24 @@ const Home = () => {
 
               {/* CTA Buttons */}
               <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:justify-center lg:justify-start">
-                <Link to="/signup" className="group flex items-center justify-center gap-2 rounded-full bg-green-600 px-8 py-4 text-lg font-semibold text-white transition-all hover:bg-green-700 hover:shadow-lg hover:cursor-pointer">
-                  Get Started
-                  <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
-                </Link>
-                <Link to="/donation" className="rounded-full bg-white px-8 py-4 text-lg font-semibold text-green-600 shadow-md transition-all hover:bg-green-50 hover:shadow-lg border border-green-200">
+                {isLoggedIn ? (
+                  <Link
+                    to="/report"
+                    className="group flex items-center justify-center gap-2 rounded-full bg-green-600 px-8 py-4 text-lg font-semibold text-white transition-all hover:bg-green-700 hover:shadow-lg hover:cursor-pointer">
+                    Report
+                    <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+                  </Link>
+                ) : (
+                  <Link
+                    to="/signup"
+                    className="group flex items-center justify-center gap-2 rounded-full bg-green-600 px-8 py-4 text-lg font-semibold text-white transition-all hover:bg-green-700 hover:shadow-lg hover:cursor-pointer">
+                    Get Started
+                    <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+                  </Link>
+                )}
+                <Link
+                  to="/donation"
+                  className="rounded-full bg-white px-8 py-4 text-lg font-semibold text-green-600 shadow-md transition-all hover:bg-green-50 hover:shadow-lg border border-green-200">
                   Make a Donation
                 </Link>
               </div>
