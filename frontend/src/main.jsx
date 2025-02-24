@@ -8,7 +8,9 @@ import Contact from "./pages/Contact";
 import Leaderboard from "./pages/Leaderboard";
 import Profile from "./pages/Profile";
 import Error from "./pages/Error";
+import CompleteAccount from "./pages/completeAccount.jsx";
 import Complaints from "./pages/Complaints.jsx";
+import CompleteAccountAuthority from "./pages/complateAccountAuthority.jsx";
 import Donation from "./pages/Donation.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Login from "./pages/Login.jsx";
@@ -16,9 +18,6 @@ import Signup from "./pages/Signup.jsx";
 import VerifyOTP from "./pages/VerifyOTP.jsx";
 import ForgotPassword from "./pages/ForgotPassword.jsx";
 import ResetPassword from "./pages/ResetPassword.jsx";
-import UserCompleteProfile from "./pages/UserCompleteProfile.jsx";
-import AuthorityCompleteProfile from "./pages/AuthorityCompleteProfile.jsx";
-
 const router = createBrowserRouter([
   {
     path: "/",
@@ -31,25 +30,13 @@ const router = createBrowserRouter([
       { path: "leaderboard", element: <Leaderboard /> },
       { path: "profile/:id", element: <Profile /> },
       { path: "donation", element: <Donation /> },
+      { path: "completeAccount", element: <CompleteAccount /> },
+      { path: "completeAccountAuthority", element: <CompleteAccountAuthority /> },
       { path: "login", element: <Login /> },
       { path: "signup", element: <Signup /> },
-      {
-        path: "verify-otp", element: <VerifyOTP />,
-      },{
-        path: "forgot-password",
-        element: <ForgotPassword />,
-      },
-      {
-        path: "reset-password/:token",
-        element: <ResetPassword />,
-      },{
-        path : "complete-user-profile",
-        element: <UserCompleteProfile/>
-      },
-      {
-        path: " complete-authority-profile",
-        element: <AuthorityCompleteProfile />,
-      },
+      { path: "verify-otp", element: <VerifyOTP /> },
+      { path: "forgot-password", element: <ForgotPassword /> },
+      { path: "reset-password/:token", element: <ResetPassword /> },
       {
         path: "report",
         element: <Report />,
