@@ -25,6 +25,7 @@ const LoginPage = () => {
             <input
               type="email"
               value={email}
+              name='password'
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
               className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-green-600 focus:border-transparent transition-all duration-300"
@@ -36,27 +37,13 @@ const LoginPage = () => {
             <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
             <input
               type="password"
+              name='password'
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
               className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-green-600 focus:border-transparent transition-all duration-300"
               required
             />
-          </div>
-
-          <div className="relative">
-            <UserCircle className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
-            <select
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-green-600 focus:border-transparent transition-all duration-300 appearance-none bg-white"
-            >
-              <option value="normal">Normal User</option>
-              <option value="authority">Authority</option>
-            </select>
-            <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
-              <ArrowRight size={20} className="text-gray-400 transform rotate-90" />
-            </div>
           </div>
 
           <button
