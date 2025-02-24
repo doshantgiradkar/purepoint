@@ -12,8 +12,8 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-green-100">
-      <div className="flex">
+    <div className="w-full bg-gradient-to-br from-green-50 to-green-100">
+      <div className="flex min-h-screen mt-16">
         {/* Sidebar */}
         <div className="w-64 h-screen bg-white p-4 shadow-lg">
           <div className="text-2xl font-bold text-green-600 mb-8">PurePoint</div>
