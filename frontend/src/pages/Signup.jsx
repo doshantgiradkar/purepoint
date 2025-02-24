@@ -92,7 +92,7 @@ const SignUpPage = () => {
 
         <p className="text-center mt-6 text-gray-600">
           Already have an account?{' '}
-          <a href="#" className="text-green-600 hover:text-emerald-600 transition-colors duration-300">
+          <a href="/login" className="text-green-600 hover:text-emerald-600 transition-colors duration-300">
             Login
           </a>
         </p>
