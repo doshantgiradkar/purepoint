@@ -1,15 +1,17 @@
-import Complaint from "../models/complaintModel.js";
+import { Complaint } from "../models/complaintsModel.js";
 import {
     deleteImageBySecureUrl,
     uploadOnCloudinary,
 } from "../utils/cloudinary.js";
 import fs from "fs";
 import dotenv from "dotenv";
-import User from "../models/userModel.js";
+import { User } from "../models/userModel.js";
+import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
 dotenv.config();
 
 export const createComplaint = async (req, res) => {
+    const cookie = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
     const { subject, userId, longitude, latitude, description } = req.body;
 
     if (!subject || !userId || !longitude || !latitude || !description) {
@@ -28,35 +30,52 @@ export const createComplaint = async (req, res) => {
 
     function haversine(lat1, lon1, lat2, lon2) {
         const toRad = (angle) => (angle * Math.PI) / 180;
-        
         const R = 6371; // Earth's radius in km
         const dLat = toRad(lat2 - lat1);
         const dLon = toRad(lon2 - lon1);
-        
+    
         const a = Math.sin(dLat / 2) ** 2 +
                   Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
                   Math.sin(dLon / 2) ** 2;
-        
+    
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         
         return R * c; // Distance in km
     }
-    const authorities = await User.find({ role: "authority" }).select('-password'); 
     
-    const nearestAthority = authorities.reduce((nearest, authority) => {
-        const distance = haversine(userLat, userLon, authority.lat, authority.lon);
-        return distance < nearest.distance ? { ...authority, distance } : nearest;
-    }, { distance: Infinity });
+    // Fetch authorities
+    const authorities = await User.find({ role: "authority" }).select('-password');
+    
+    if (!authorities.length) {
+        console.log("No authorities found.");
+        return null; // Handle empty authorities case
+    }
+    
+    // Initialize with first authority (not { distance: Infinity })
+    let nearestAuthority = { ...authorities[0], distance: haversine(latitude, longitude, authorities[0].location.latitude, authorities[0].location.longitude) };
+    
+    // Find the nearest authority
+    authorities.forEach((authority) => {
+        const distance = haversine(latitude, longitude, authority.location.latitude, authority.location.longitude);
+        
+        if (distance < nearestAuthority.distance) {
+            nearestAuthority = { ...authority, distance };
+        }
+    });
+    
+    console.log(nearestAuthority);
 
     // Create a new complaint in the database
     let complaint = new Complaint({
+        subject: subject,
+        filedby: cookie.userId,
         before: beforeImgUrl,
         userid: userId,
         locaiton: {
             longitude: longitude,
             latitude: latitude
         },
-        authorityAssigned: nearestAthority._id,
+        authorityAssigned: nearestAuthority._doc._id,
         description: description,
     });
 
@@ -118,9 +137,11 @@ export const updateComplaint = (req, res) => {
 };
 
 export const getResolvedComplaintForAuthority = async (req, res) => {
-    const id = req.cookies.userId;
+    let cookie = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
 
-    if (!id && req.cookies.role !== "authority") {
+    const id = cookie.userId;
+
+    if (!id && cookie.role !== "authority") {
         return res.status(401).json({ success: false, message: "Unauthorized" });
     }
 
@@ -134,14 +155,19 @@ export const getResolvedComplaintForAuthority = async (req, res) => {
 }
 
 export const getUnresolvedComplaintForAuthority = async (req, res) => {
-    const id = req.cookies.userId;
+    let cookie = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
 
-    if (!id && req.cookies.role !== "authority") {
+    const id = cookie.userId;
+
+    if (!id && cookie.role !== "authority") {
         return res.status(401).json({ success: false, message: "Unauthorized" });
     }
 
     try {
-        const complaints = await Complaint.find({ authorityAssigned: id, status: "resolved" });
+        const complaints = await Complaint.find({ 
+            filedby: id, 
+            status: { $ne: "resolved" } 
+        });
         res.status(200).json({ success: true, complaints });
     } catch (error) {
         console.log(error);
@@ -150,9 +176,11 @@ export const getUnresolvedComplaintForAuthority = async (req, res) => {
 }
 
 export const getResolvedComplaintsByUser = async (req, res) => {
-    const id = req.cookies.userId;
+    let cookie = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
 
-    if (!id && req.cookies.role !== "user") {
+    const id = cookie.userId;
+
+    if (!id && cookie.role !== "user") {
         return res.status(401).json({ success: false, message: "Unauthorized" });    
     }
 
@@ -166,14 +194,19 @@ export const getResolvedComplaintsByUser = async (req, res) => {
 }
 
 export const getUnresolvedComplaintsByUser = async (req, res) => {
-    const id = req.cookies.userId;
+    let cookie = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
 
-    if (!id && req.cookies.role !== "user") {
+    const id = cookie.userId;
+
+    if (!id && cookie.role !== "user") {
         return res.status(401).json({ success: false, message: "Unauthorized" });    
     }
 
     try {
-        const complaints = await Complaint.find({ filedby: id, $not: {status: "resolved"} });
+        const complaints = await Complaint.find({ 
+            filedby: id, 
+            status: { $ne: "resolved" } 
+        });
         res.status(200).json({ success: true, complaints });
     } catch (error) {
         console.log(error);    
@@ -182,9 +215,11 @@ export const getUnresolvedComplaintsByUser = async (req, res) => {
 }
 
 export const claimAllRewards = async (req, res) => {
-    const id = req.cookies.userId;
+    let cookie = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
 
-    if (!id && req.cookies.role !== "user") {
+    const id = cookie.userId;
+
+    if (!id && cookie.role !== "user") {
         return res.status(401).json({ success: false, message: "Unauthorized" });    
     }
 

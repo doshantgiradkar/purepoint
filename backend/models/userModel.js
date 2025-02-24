@@ -13,6 +13,7 @@ const userSchema = new mongoose.Schema(
     phone: {
       type: String,
       unique: true,
+      required: false
     },
     bio: {
       type: String,
@@ -73,7 +74,7 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    credits: { type: Number, default: 5 },
+    credits: { type: Number, default: 0 },
     rank: { type: Number, default: 0 },
     rating: { type: Number, default: 0, min: 0, max: 5 },
     resetPasswordToken: String,

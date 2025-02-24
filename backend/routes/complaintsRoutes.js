@@ -2,7 +2,6 @@ import express from 'express';
 import {
     createComplaint,
     getAllComplaints,
-    getComplaintById,
     updateComplaint,
     deleteComplaint,
     getResolvedComplaintForAuthority,
@@ -10,20 +9,19 @@ import {
     getResolvedComplaintsByUser,
     getUnresolvedComplaintsByUser,
     claimAllRewards
-} from '../controllers/complaintController.js';
+} from '../controllers/complaintsController.js';
 import { upload } from "../middleware/multerMiddleware.js";
 
-const router = express.Router();
+const complaintRouter = express.Router();
 
 
-router.post('/report', upload.single('beforeImg'), createComplaint);
-router.get('/complaints', getAllComplaints);
-router.get('/complaints/:id', getComplaintById);
-router.put('/complaints/:id', upload.single('afterImg'), updateComplaint);
-router.delete('/complaints/:id', deleteComplaint);
-router.get('/get-resolved-complaints-for-authority', getResolvedComplaintForAuthority);
-router.get('/get-unresolved-complaints-for-authority', getUnresolvedComplaintForAuthority);
-router.get('/get-resolved-complaints-by-user', getResolvedComplaintsByUser);
-router.get('/get-unresolved-complaints-by-user', getUnresolvedComplaintsByUser);
-router.post('/claim-all', claimAllRewards);
-export default router;
+complaintRouter.post('/report', upload.single('beforeImg'), createComplaint);
+complaintRouter.get('/complaints', getAllComplaints);
+complaintRouter.put('/complaints/:id', upload.single('afterImg'), updateComplaint);
+complaintRouter.delete('/complaints/:id', deleteComplaint);
+complaintRouter.get('/get-resolved-complaints-for-authority', getResolvedComplaintForAuthority);
+complaintRouter.get('/get-unresolved-complaints-for-authority', getUnresolvedComplaintForAuthority);
+complaintRouter.get('/get-resolved-complaints-by-user', getResolvedComplaintsByUser);
+complaintRouter.get('/get-unresolved-complaints-by-user', getUnresolvedComplaintsByUser);
+complaintRouter.post('/claim-all', claimAllRewards);
+export default complaintRouter;
