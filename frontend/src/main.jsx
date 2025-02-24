@@ -18,6 +18,8 @@ import VerifyOTP from "./pages/VerifyOTP.jsx";
 import ForgotPassword from "./pages/ForgotPassword.jsx";
 import ResetPassword from "./pages/ResetPassword.jsx";
 import Home from "./pages/Home.jsx";
+import Dashboard from "./pages/Dashboard.jsx";
+import { ContextProvider } from "../contexts/GlobalContext.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -28,10 +30,14 @@ const router = createBrowserRouter([
       { path: "about", element: <About /> },
       { path: "contact", element: <Contact /> },
       { path: "leaderboard", element: <Leaderboard /> },
-      { path: "profile/:id", element: <Profile /> },
+      { path: "profile", element: <Profile /> },
+      { path: "dashboard", element: <Dashboard /> },
       { path: "donation", element: <Donation /> },
       { path: "completeAccount", element: <CompleteAccount /> },
-      { path: "completeAccountAuthority", element: <CompleteAccountAuthority /> },
+      {
+        path: "completeAccountAuthority",
+        element: <CompleteAccountAuthority />,
+      },
       { path: "login", element: <Login /> },
       { path: "signup", element: <Signup /> },
       { path: "verify-otp", element: <VerifyOTP /> },
