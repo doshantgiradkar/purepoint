@@ -1,14 +1,12 @@
 import { useState } from 'react';
-import { ArrowRight, Mail, Lock, UserCircle, User, Building } from 'lucide-react';
+import { ArrowRight, Mail, Lock, UserCircle } from 'lucide-react';
 
 const SignUpPage = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
     confirmPassword: '',
-    fullName: '',
-    role: 'normal',
-    organization: ''
+    role: 'normal'
   });
   const [isLoading, setIsLoading] = useState(false);
 
@@ -25,18 +23,6 @@ const SignUpPage = () => {
         <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center">Create Account</h1>
         
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="relative">
-            <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
-            <input
-              type="text"
-              value={formData.fullName}
-              onChange={(e) => setFormData({...formData, fullName: e.target.value})}
-              placeholder="Full Name"
-              className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-green-600 focus:border-transparent transition-all duration-300"
-              required
-            />
-          </div>
-
           <div className="relative">
             <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
             <input
@@ -87,20 +73,6 @@ const SignUpPage = () => {
               <ArrowRight size={20} className="text-gray-400 transform rotate-90" />
             </div>
           </div>
-
-          {formData.role === 'authority' && (
-            <div className="relative">
-              <Building className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
-              <input
-                type="text"
-                value={formData.organization}
-                onChange={(e) => setFormData({...formData, organization: e.target.value})}
-                placeholder="Organization Name"
-                className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-green-600 focus:border-transparent transition-all duration-300"
-                required={formData.role === 'authority'}
-              />
-            </div>
-          )}
 
           <button
             type="submit"
