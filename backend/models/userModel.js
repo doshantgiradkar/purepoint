@@ -73,7 +73,7 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    credits: { type: Number, default: 0 },
+    credits: { type: Number, default: 5 },
     rank: { type: Number, default: 0 },
     rating: { type: Number, default: 0, min: 0, max: 5 },
     resetPasswordToken: String,

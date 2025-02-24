@@ -1,4 +1,3 @@
-import { en } from "faker/lib/locales";
 import mongoose from "mongoose";
 import { type } from "os";
 
@@ -42,12 +41,16 @@ const compalintsSchema = new mongoose.Schema(
         required: true,
       },
     },
+    isClaimed: {
+      type: Boolean,
+      default: false,
+    },
     credits: {
       type: Number,
       default: 10,
     },
     status: {
-      type:string,
+      type:String,
       enum: ["pending", "in review", "resolved"],
       default: "pending",
     }
