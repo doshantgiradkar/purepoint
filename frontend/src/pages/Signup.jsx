@@ -18,7 +18,7 @@ const SignUpPage = () => {
   };
 
   return (
-    <div className="w-full min-h-screen bg-gradient-to-br from-green-50 to-green-100 flex items-center justify-center p-4">
+    <div className="mt-8 w-full min-h-screen bg-gradient-to-br from-green-50 to-green-100 flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-8 transform transition-all duration-300 hover:scale-[1.02]">
         <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center">Create Account</h1>
         
@@ -27,6 +27,7 @@ const SignUpPage = () => {
             <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
             <input
               type="email"
+              name='email'
               value={formData.email}
               onChange={(e) => setFormData({...formData, email: e.target.value})}
               placeholder="Enter your email"
@@ -42,6 +43,7 @@ const SignUpPage = () => {
               value={formData.password}
               onChange={(e) => setFormData({...formData, password: e.target.value})}
               placeholder="Enter your password"
+              name='password'
               className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-green-600 focus:border-transparent transition-all duration-300"
               required
             />
@@ -54,6 +56,7 @@ const SignUpPage = () => {
               value={formData.confirmPassword}
               onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
               placeholder="Confirm password"
+              name='confirmPassword'
               className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-green-600 focus:border-transparent transition-all duration-300"
               required
             />
@@ -64,9 +67,10 @@ const SignUpPage = () => {
             <select
               value={formData.role}
               onChange={(e) => setFormData({...formData, role: e.target.value})}
+              name='role'
               className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-green-600 focus:border-transparent transition-all duration-300 appearance-none bg-white"
             >
-              <option value="normal">Normal User</option>
+              <option value="user">Normal User</option>
               <option value="authority">Authority</option>
             </select>
             <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
