@@ -17,7 +17,7 @@ import Signup from "./pages/Signup.jsx";
 import VerifyOTP from "./pages/VerifyOTP.jsx";
 import ForgotPassword from "./pages/ForgotPassword.jsx";
 import ResetPassword from "./pages/ResetPassword.jsx";
-import { Home } from "lucide-react";
+import Home from "./pages/Home.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
