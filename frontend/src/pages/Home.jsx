@@ -67,7 +67,7 @@ const Home = () => {
   ];
     
   return (
-    <div className="bg-gradient-to-br from-green-50 to-green-100 text-gray-900">
+    <div className="w-full bg-gradient-to-br from-green-50 to-green-100 text-gray-900">
       {/* Hero Section */}
       <section className="relative mx-auto max-w-7xl overflow-hidden bg-gradient-to-br from-green-50 to-green-100 px-6 py-16 md:py-24 h-fit mt-16 ">
         {/* Decorative background elements */}
