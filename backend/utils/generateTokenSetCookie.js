@@ -1,11 +1,11 @@
 import jwt from "jsonwebtoken";
 
-export const generateTokenSetCookie = (res, userId) => {
+export const generateTokenSetCookie = (res, userId, role) => {
   if (!process.env.JWT_SECRET || !process.env.JWT_EXPIRATION) {
     throw new Error("JWT_SECRET or JWT_EXPIRATION environment variables are not set");
   }
 
-  const token = jwt.sign({ userId }, process.env.JWT_SECRET, {
+  const token = jwt.sign({ userId, role }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRATION,
   });
 
