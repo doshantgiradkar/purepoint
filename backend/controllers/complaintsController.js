@@ -6,6 +6,7 @@ import {
 import fs from "fs";
 import dotenv from "dotenv";
 import User from "../models/userModel.js";
+import cookieParser from "cookie-parser";
 dotenv.config();
 
 export const createComplaint = async (req, res) => {
@@ -115,3 +116,86 @@ export const updateComplaint = (req, res) => {
         res.status(500).json({ success: false, message: "Error updating complaint" });
     });
 };
+
+export const getResolvedComplaintForAuthority = async (req, res) => {
+    const id = req.cookies.userId;
+
+    if (!id && req.cookies.role !== "authority") {
+        return res.status(401).json({ success: false, message: "Unauthorized" });
+    }
+
+    try {
+        const complaints = await Complaint.find({ authorityAssigned: id, status: "resolved" });
+        res.status(200).json({ success: true, complaints });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ success: false, message: "Error getting complaints" });
+    }
+}
+
+export const getUnresolvedComplaintForAuthority = async (req, res) => {
+    const id = req.cookies.userId;
+
+    if (!id && req.cookies.role !== "authority") {
+        return res.status(401).json({ success: false, message: "Unauthorized" });
+    }
+
+    try {
+        const complaints = await Complaint.find({ authorityAssigned: id, status: "resolved" });
+        res.status(200).json({ success: true, complaints });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ success: false, message: "Error getting complaints" });
+    }
+}
+
+export const getResolvedComplaintsByUser = async (req, res) => {
+    const id = req.cookies.userId;
+
+    if (!id && req.cookies.role !== "user") {
+        return res.status(401).json({ success: false, message: "Unauthorized" });    
+    }
+
+    try {
+        const complaints = await Complaint.find({ filedby: id, status: "resolved" });
+        res.status(200).json({ success: true, complaints });
+    } catch (error) {
+        console.log(error);    
+        res.status(500).json({ success: false, message: "Error getting complaints" });
+    }
+}
+
+export const getUnresolvedComplaintsByUser = async (req, res) => {
+    const id = req.cookies.userId;
+
+    if (!id && req.cookies.role !== "user") {
+        return res.status(401).json({ success: false, message: "Unauthorized" });    
+    }
+
+    try {
+        const complaints = await Complaint.find({ filedby: id, $not: {status: "resolved"} });
+        res.status(200).json({ success: true, complaints });
+    } catch (error) {
+        console.log(error);    
+        res.status(500).json({ success: false, message: "Error getting complaints" });
+    }
+}
+
+export const claimAllRewards = async (req, res) => {
+    const id = req.cookies.userId;
+
+    if (!id && req.cookies.role !== "user") {
+        return res.status(401).json({ success: false, message: "Unauthorized" });    
+    }
+
+    try {
+        await Complaint.updateMany(
+            { filedby: id, status: "resolved" }, 
+            { $set: { isClaimed: true } }
+        );
+        res.status(200).json({ success: true, complaints });
+    } catch (error) {
+        console.log(error);    
+        res.status(500).json({ success: false, message: "Error getting complaints" });
+    }
+}

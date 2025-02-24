@@ -1,19 +1,32 @@
 import { useState } from 'react';
 import { ArrowRight, Mail, Lock, UserCircle } from 'lucide-react';
+import { useGlobalContext } from '../../hooks/useGlobalContext';
 
 const LoginPage = () => {
+  const { login } = useGlobalContext();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState('normal');
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+   
     setIsLoading(true);
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    setIsLoading(false);
+  
+    try {
+      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulating delay
+  
+      // Call login function from GlobalContext
+      await login({email, password}); // Make sure `email` & `password` are properly stored in state
+  
+      console.log("Login successful!");
+    } catch (error) {
+      console.error("Login failed:", error);
+    
+    } finally {
+      setIsLoading(false);
+    }
   };
-
   return (
     <div className="w-full min-h-screen bg-gradient-to-br from-green-50 to-green-100 flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-8 transform transition-all duration-300 hover:scale-[1.02]">
