@@ -4,8 +4,8 @@ const ForgotPassword = () => {
   const [email, setEmail] = useState("");
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-green-200 to-green-400">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-sm">
+    <div className="w-full flex items-center justify-center bg-gradient-to-r from-green-200 to-green-400 mt-16 min-h-screen">
+      <div className="mx-auto max-w-7xl p-6 rounded-lg shadow-lg bg-white">
         <h2 className="text-2xl font-bold text-green-700 text-center">
           Forgot Password?
         </h2>
