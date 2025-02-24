@@ -169,7 +169,7 @@ export const ContextProvider = ({ children }) => {
     setIsLoading(true);
     setMessage(null);
     setError(null);
-
+    console.log(code)
     try {
       const response = await axios.post(
         `${SERVER_URL}/verify-email`,
