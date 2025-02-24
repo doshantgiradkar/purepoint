@@ -90,7 +90,7 @@ const Report = () => {
 
             {/* Map Section */}
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-700">Location (Click to update)</label>
+              <label className="block text-sm font-medium text-gray-700">Location</label>
               <div className="h-64 rounded-lg overflow-hidden border border-gray-300 relative">
                 {loadingLocation ? (
                   <div className="flex items-center justify-center h-full text-gray-500">Loading map...</div>
