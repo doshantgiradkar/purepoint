@@ -5,25 +5,63 @@ import {
 } from "../utils/cloudinary.js";
 import fs from "fs";
 import dotenv from "dotenv";
+import User from "../models/userModel.js";
 dotenv.config();
 
-export const createComplaint = (req, res) => {
-    const { userId, longitude, latitude, description } = req.body;
+export const createComplaint = async (req, res) => {
+    const { subject, userId, longitude, latitude, description } = req.body;
 
-    if (!userId || !longitude || !latitude || !description) {
+    if (!subject || !userId || !longitude || !latitude || !description) {
         return res.status(400).json({ success: false, message: "All fields are required" });
     }
+    const beforeImg = req.file;
+    let path;
+    if (beforeImg) {
+      path = beforeImg.path; // Extract file path
+    }
+    let beforeImgUrl = "";
+    if (beforeImg) {
+      const cloudinaryResult = await uploadOnCloudinary(path);
+      beforeImgUrl = cloudinaryResult.secure_url;
+    }
+
+    function haversine(lat1, lon1, lat2, lon2) {
+        const toRad = (angle) => (angle * Math.PI) / 180;
+        
+        const R = 6371; // Earth's radius in km
+        const dLat = toRad(lat2 - lat1);
+        const dLon = toRad(lon2 - lon1);
+        
+        const a = Math.sin(dLat / 2) ** 2 +
+                  Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+                  Math.sin(dLon / 2) ** 2;
+        
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        
+        return R * c; // Distance in km
+    }
+    const authorities = await User.find({ role: "authority" }).select('-password'); 
+    
+    const nearestAthority = authorities.reduce((nearest, authority) => {
+        const distance = haversine(userLat, userLon, authority.lat, authority.lon);
+        return distance < nearest.distance ? { ...authority, distance } : nearest;
+    }, { distance: Infinity });
 
     // Create a new complaint in the database
     let complaint = new Complaint({
+        before: beforeImgUrl,
         userid: userId,
         locaiton: {
             longitude: longitude,
             latitude: latitude
         },
+        authorityAssigned: nearestAthority._id,
         description: description,
     });
 
+    if (path && fs.existsSync(path)) {
+          fs.unlinkSync(path);
+    }
     complaint.save();
     return res.status(200).json({ success: true, message: "Complaint created successfully" });
 };
@@ -66,7 +104,7 @@ export const updateComplaint = (req, res) => {
           const cloudinaryResult = await uploadOnCloudinary(path);
           afterUrl = cloudinaryResult.secure_url;
         }
-        complaint.after = afterUrl;
+        complaint.afterImg = afterUrl;
         complaint.resolvedAt = Date.now();
         complaint.status = "resolved";
 

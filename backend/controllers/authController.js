@@ -19,10 +19,10 @@ dotenv.config();
 
 // Register new user
 export const register = async (req, res) => {
-  const { email, password, confirmPassword } = req.body;
-
+  const { email, password, confirmPassword, role } = req.body;
+  console.log(req.body);
   try {
-    if (!email || !password || !confirmPassword) {
+    if (!role || !email || !password || !confirmPassword) {
       throw new Error("All fields are required");
     }
 
@@ -49,13 +49,14 @@ export const register = async (req, res) => {
       password: hashedPassword,
       verificationToken,
       verificationTokenExpiresAt: Date.now() + 24 * 60 * 60 * 1000, // Token expiration (24 hours)
+      role
     });
 
     // Save the user to the database
     await user.save();
 
     // Generate JWT token and set it as a cookie
-    const token = generateTokenSetCookie(res, user._id);
+    const token = generateTokenSetCookie(res, user._id, user.role);
 
     // Send verification email
     await sendVerificationEmail(user.email, verificationToken);
@@ -73,18 +74,18 @@ export const register = async (req, res) => {
       message: error.message || "Error during signup",
     });
   }
-};
+}
+
 
 
 // Verify user email
 export const verifyEmail = async (req, res) => {
   const { code } = req.body;
   try {
+    console.log(code);
     const user = await User.findOne({
       verificationToken: code,
-      verificationTokenExpiresAt: { $gt: Date.now() },
     });
-
     if (!user) {
       return res.status(400).json({
         success: false,
@@ -132,7 +133,7 @@ export const login = async (req, res) => {
         .json({ success: false, message: "Invalid credentials" });
     }
 
-    generateTokenSetCookie(res, user._id);
+    generateTokenSetCookie(res, user._id, user.role);
 
     user.lastLogin = new Date();
     await user.save();
@@ -298,7 +299,7 @@ export const changePassword = async (req, res) => {
 
 //Create Profile
 export const createProfile = async (req, res) => {
-  const { fullName, bio , username } = req.body;
+  const { fullName, bio, username } = req.body;
   const userId = req.userId;
   const profilePicture = req.file;
 
@@ -329,10 +330,14 @@ export const createProfile = async (req, res) => {
     }
 
     // Update user fields
-    user.fullName = fullName;
+    user.Name = fullName;
     user.profilePicture = profilePictureUrl;
     user.bio = bio;
     user.isProfileComplete = true;
+    if (tyoeof(req.body.longitude) != 'undefined' && typeof(req.body.latitude) !== 'undefined') {
+      user.location.longitude = req.body.longitude;
+      user.location.latitude = req.body.latitude;
+    }
 
     // Save updated user
     await user.save();
@@ -410,7 +415,7 @@ export const updateProfile = async (req, res) => {
     }
 
     // Update the user's fields only if new data is provided
-    user.fullName = fullName || user.fullName;
+    user.Name = fullName || user.fullName;
     user.bio = bio || user.bio;
     user.profilePicture = profilePictureUrl || user.profilePicture;
     if (socialMedia) {

@@ -1,14 +1,16 @@
 import { en } from "faker/lib/locales";
 import mongoose from "mongoose";
+import { type } from "os";
 
 const compalintsSchema = new mongoose.Schema(
   {
-    id: {
+    subject: {
       type: String,
+      required: true,
     },
-    userid: {
-      type: String,
-      unique: true, 
+    filedby: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
       required: true, 
     },
     beforeImg: {
@@ -25,12 +27,12 @@ const compalintsSchema = new mongoose.Schema(
       default: undefined,
     },
     authorityAssigned: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Authority",
       default: undefined,
       required: true,
     },
     locaiton: {
-      type: String,
       longitude: {
         type: Number,
         required: true,
@@ -39,7 +41,6 @@ const compalintsSchema = new mongoose.Schema(
         type: Number,
         required: true,
       },
-      required: true,
     },
     credits: {
       type: Number,
@@ -47,7 +48,7 @@ const compalintsSchema = new mongoose.Schema(
     },
     status: {
       type:string,
-      enum: ["pending", "resolved"],
+      enum: ["pending", "in review", "resolved"],
       default: "pending",
     }
   },
