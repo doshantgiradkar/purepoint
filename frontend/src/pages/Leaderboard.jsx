@@ -33,7 +33,7 @@ const Leaderboard = () => {
   const otherUsers = filteredUsers.filter((user) => user.rank > 3);
 
   return (
-    <div className={`flex-grow flex flex-col  ${darkMode ? "bg-gray-900" : "bg-gray-50"} transition-all duration-500 `}>
+    <div className={`w-full flex-grow flex flex-col  ${darkMode ? "bg-gray-900" : "bg-gray-50"} transition-all duration-500 `}>
       <div className="max-w-full mx-auto px-4 py-12">
         {/* Tabs */}
         <div className="w-full flex justify-around mb-12 mt-8">

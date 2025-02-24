@@ -100,10 +100,10 @@ const Home = () => {
 
               {/* CTA Buttons */}
               <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:justify-center lg:justify-start">
-                <button className="group flex items-center justify-center gap-2 rounded-full bg-green-600 px-8 py-4 text-lg font-semibold text-white transition-all hover:bg-green-700 hover:shadow-lg">
+                <Link to="/signup" className="group flex items-center justify-center gap-2 rounded-full bg-green-600 px-8 py-4 text-lg font-semibold text-white transition-all hover:bg-green-700 hover:shadow-lg hover:cursor-pointer">
                   Get Started
                   <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
-                </button>
+                </Link>
                 <Link to="/donation" className="rounded-full bg-white px-8 py-4 text-lg font-semibold text-green-600 shadow-md transition-all hover:bg-green-50 hover:shadow-lg border border-green-200">
                   Make a Donation
                 </Link>
