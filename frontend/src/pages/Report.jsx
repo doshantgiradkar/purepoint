@@ -37,6 +37,9 @@ const Report = () => {
   const mapRef = useRef(null);
 
   useEffect(() => {
+    // Scroll to top when the component mounts
+    window.scrollTo(0, 0);
+
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -48,7 +51,7 @@ const Report = () => {
         (error) => {
           console.error('Error getting location:', error);
           setLoadingLocation(false);
-        }
+        },
       );
     } else {
       setLoadingLocation(false);
@@ -93,15 +96,16 @@ const Report = () => {
               <label className="block text-sm font-medium text-gray-700">Location</label>
               <div className="h-64 rounded-lg overflow-hidden border border-gray-300 relative">
                 {loadingLocation ? (
-                  <div className="flex items-center justify-center h-full text-gray-500">Loading map...</div>
+                  <div className="flex items-center justify-center h-full text-gray-500">
+                    Loading map...
+                  </div>
                 ) : userLocation ? (
                   <MapContainer
                     ref={mapRef}
                     center={userLocation}
                     zoom={13}
                     className="h-full w-full"
-                    style={{ height: '100%', width: '100%' }}
-                  >
+                    style={{ height: '100%', width: '100%' }}>
                     <TileLayer
                       attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -111,15 +115,16 @@ const Report = () => {
                     {location && <Marker position={location} />}
                   </MapContainer>
                 ) : (
-                  <div className="flex items-center justify-center h-full text-gray-500">Location unavailable</div>
+                  <div className="flex items-center justify-center h-full text-gray-500">
+                    Location unavailable
+                  </div>
                 )}
               </div>
               <button
                 type="button"
                 className="mt-2 px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition"
                 onClick={() => setLocation(userLocation)}
-                disabled={!userLocation}
-              >
+                disabled={!userLocation}>
                 Reset to My Location
               </button>
             </div>
@@ -139,8 +144,7 @@ const Report = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full py-2 px-4 rounded-md text-white font-medium bg-blue-500 hover:bg-blue-600 transition-colors"
-            >
+              className="w-full py-2 px-4 rounded-md text-white font-medium bg-blue-500 hover:bg-blue-600 transition-colors">
               Submit Report
             </button>
           </form>
