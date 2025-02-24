@@ -52,11 +52,11 @@ export const createComplaint = async (req, res) => {
     }
     
     // Initialize with first authority (not { distance: Infinity })
-    let nearestAuthority = { ...authorities[0], distance: haversine(latitude, longitude, authorities[0].lat, authorities[0].lon) };
+    let nearestAuthority = { ...authorities[0], distance: haversine(latitude, longitude, authorities[0].location.latitude, authorities[0].location.longitude) };
     
     // Find the nearest authority
     authorities.forEach((authority) => {
-        const distance = haversine(latitude, longitude, authority.lat, authority.lon);
+        const distance = haversine(latitude, longitude, authority.location.latitude, authority.location.longitude);
         
         if (distance < nearestAuthority.distance) {
             nearestAuthority = { ...authority, distance };
@@ -75,7 +75,7 @@ export const createComplaint = async (req, res) => {
             longitude: longitude,
             latitude: latitude
         },
-        authorityAssigned: nearestAuthority._id,
+        authorityAssigned: nearestAuthority._doc._id,
         description: description,
     });
 
