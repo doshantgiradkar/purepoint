@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema(
     },
     profilePicture: {
       type: String,
-      default: "https://res.cloudinary.com/dqml2xcd0/image/upload/v1737452571/avatar-3814049_1920_hguhbt.png", 
+      default: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.Ghae4OEdb4UmC3hkqpFvLAHaGd%26pid%3DApi&f=1&ipt=d7c94da5fae28f0cfbed9e59ba902a6cdd0fcb82cc2b6dc9520b209cd81fdf6c&ipo=images", 
     },
     lastLogin: {
       type: Date,
