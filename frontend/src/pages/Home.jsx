@@ -15,8 +15,10 @@ import {
   Star,
 } from 'lucide-react';
 import 'swiper/css';
+import { useGlobalContext } from '../../hooks/useGlobalContext';
 
-const Home = ({isLoggedIn}) => {
+const Home = () => {
+  const {isAuthenticated} = useGlobalContext();
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const nextTestimonial = () => {
@@ -108,7 +110,8 @@ const Home = ({isLoggedIn}) => {
 
               {/* CTA Buttons */}
               <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:justify-center lg:justify-start">
-                {isLoggedIn ? (
+                { isAuthenticated 
+ ? (
                   <Link
                     to="/report"
                     className="group flex items-center justify-center gap-2 rounded-full bg-green-600 px-8 py-4 text-lg font-semibold text-white transition-all hover:bg-green-700 hover:shadow-lg hover:cursor-pointer">

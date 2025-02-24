@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { ArrowRight, Mail, Lock, UserCircle } from 'lucide-react';
 import { useGlobalContext } from '../../hooks/useGlobalContext';
 
-const LoginPage = () => {
+const Login = () => {
   const { login } = useGlobalContext();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -27,6 +27,7 @@ const LoginPage = () => {
       setIsLoading(false);
     }
   };
+
   return (
     <div className="w-full min-h-screen bg-gradient-to-br from-green-50 to-green-100 flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-8 transform transition-all duration-300 hover:scale-[1.02]">
@@ -86,4 +87,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default Login;

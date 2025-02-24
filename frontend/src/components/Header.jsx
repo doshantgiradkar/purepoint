@@ -16,20 +16,23 @@ import {
   Leaf,
 } from "lucide-react";
 import FloatingButton from "./Floating";
-// import { UserButton } from "@clerk/clerk-react";
+import { useGlobalContext } from "../../hooks/useGlobalContext";
 
 const Header = () => {
+  const { isAuthenticated, login, logout } = useGlobalContext();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  // Close menus when clicking outside
   useEffect(() => {
-    const handleClickOutside = () => {
-      setIsMenuOpen(false);
-      setIsProfileMenuOpen(false);
+    const handleClickOutside = (e) => {
+      if (!e.target.closest(".menu-container")) {
+        setIsMenuOpen(false);
+        setIsProfileMenuOpen(false);
+      }
     };
+
     document.addEventListener("click", handleClickOutside);
     return () => document.removeEventListener("click", handleClickOutside);
   }, []);
@@ -42,21 +45,16 @@ const Header = () => {
     { href: "/contact", label: "Contact", icon: Mail },
   ];
 
-  const profileMenuItems = [
-    { label: "Profile", href: "/profile/nfg", icon: User },
-    { label: "Settings", href: "/settings", icon: Settings },
-    { label: "Logout", href: "#", icon: LogOut },
-  ];
-
-  // Prevent click propagation for menu buttons
-  const handleMenuClick = (e) => {
-    e.stopPropagation();
-    setIsMenuOpen(!isMenuOpen);
-  };
-
-  const handleProfileClick = (e) => {
-    e.stopPropagation();
-    setIsProfileMenuOpen(!isProfileMenuOpen);
+  const handleLogout = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    try {
+      await logout();
+    } catch (error) {
+      console.error("Logout failed:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -73,7 +71,8 @@ const Header = () => {
               </Link>
             </div>
 
-            <div className="hidden lg:flex items-center space-x-1 md:space-x-4">
+            {/* Desktop Navigation */}
+            <div className="hidden lg:flex items-center space-x-4">
               {navigationLinks.map(({ href, label, icon: Icon }) => (
                 <Link
                   key={href}
@@ -86,9 +85,18 @@ const Header = () => {
               ))}
             </div>
 
-            <div className="flex items-center space-x-2 sm:space-x-4">
-              
-                <div className="flex items-center space-x-2 sm:space-x-4">
+            {/* Authentication & Menu */}
+            <div className="flex items-center space-x-4">
+              {isAuthenticated ? (
+                <button
+                  onClick={handleLogout}
+                  className="text-sm sm:text-base px-3 py-1.5 bg-white text-green-700 font-semibold rounded-md hover:bg-gray-100"
+                  disabled={isLoading}
+                >
+                  {isLoading ? "Logging out..." : "Logout"}
+                </button>
+              ) : (
+                <div className="flex items-center space-x-4">
                   <Link
                     to="/login"
                     className="text-sm sm:text-base text-white hover:text-gray-200"
@@ -97,14 +105,19 @@ const Header = () => {
                   </Link>
                   <Link
                     to="/signup"
-                    className="text-sm sm:text-base px-3 py-1.5 sm:px-4 sm:py-2 bg-white text-green-700 font-semibold rounded-md hover:bg-gray-100"
+                    className="text-sm sm:text-base px-3 py-1.5 bg-white text-green-700 font-semibold rounded-md hover:bg-gray-100"
                   >
                     Sign Up
                   </Link>
                 </div>
+              )}
 
+              {/* Mobile Menu Button */}
               <button
-                onClick={handleMenuClick}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsMenuOpen(!isMenuOpen);
+                }}
                 className="lg:hidden p-2 rounded-md hover:bg-green-600"
               >
                 {isMenuOpen ? (
@@ -116,8 +129,9 @@ const Header = () => {
             </div>
           </div>
 
+          {/* Mobile Navigation Menu */}
           {isMenuOpen && (
-            <div className="lg:hidden border-t border-green-600">
+            <div className="lg:hidden border-t border-green-600 menu-container">
               <div className="px-2 pt-2 pb-3 space-y-1">
                 {navigationLinks.map(({ href, label, icon: Icon }) => (
                   <Link
