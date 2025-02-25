@@ -162,7 +162,7 @@ const Complaints = () => {
             ))}
           </div>
 
-          <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
+          <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden z-10">
             <div className="p-5 border-b border-gray-100">
               <h2 className="text-lg font-semibold text-gray-800">Complaint Locations</h2>
             </div>
