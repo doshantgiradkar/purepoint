@@ -89,12 +89,18 @@ const Donation = () => {
   return (
     <div className="w-full min-h-screen relative overflow-hidden">
       {/* Background Image and Overlay */}
-      <div className="absolute inset-0 z-0">
-        <img
-          src="/homepage_image2.jpg" // Ensure this image exists in the public folder
+        <div className="absolute inset-0 z-0">
+          <img
+            src="/homepage_image2.jpg" // Ensure this image exists in the public folder
+            alt="Clean water impact"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-teal-900/70 backdrop-blur-sm" />
+      </div>
+      <div
           alt="Clean water impact"
-          className="w-full h-full object-cover"
-        />
+          className="w-full h-full object-cover">
+        <div/>
         <div className="absolute inset-0 bg-teal-900/70 backdrop-blur-sm" />
       </div>
 
