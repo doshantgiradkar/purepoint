@@ -1,5 +1,16 @@
 import React, { useState } from 'react';
 import { MapPin, Clock, ChevronRight, GridIcon, ListIcon, Filter, Calendar } from 'lucide-react';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
+
+// Fix for default marker icons in Leaflet
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+});
 
 const sampleComplaints = [
   {
@@ -11,6 +22,7 @@ const sampleComplaints = [
     description:
       'Large pothole causing traffic disruption and potential safety hazards for vehicles. Multiple complaints received from local residents about vehicle damage.',
     imageUrl: '/how_it_works.jpg',
+    coordinates: [51.505, -0.09], // Latitude and Longitude
   },
   {
     id: 2,
@@ -21,6 +33,7 @@ const sampleComplaints = [
     description:
       'Multiple street lights not functioning in the residential area, causing safety concerns for pedestrians during evening hours.',
     imageUrl: '/how_it_works.jpg',
+    coordinates: [51.51, -0.1], // Latitude and Longitude
   },
 ];
 
@@ -153,8 +166,26 @@ const Complaints = () => {
             <div className="p-5 border-b border-gray-100">
               <h2 className="text-lg font-semibold text-gray-800">Complaint Locations</h2>
             </div>
-            <div className="h-[calc(100%-4rem)] min-h-[400px] bg-gray-50 flex items-center justify-center">
-              <p className="text-gray-500 text-sm">Map Component Would Render Here</p>
+            <div className="h-[calc(100%-4rem)] min-h-[400px]">
+              <MapContainer
+                center={[51.505, -0.09]} // Default center
+                zoom={13}
+                className="h-full w-full">
+                <TileLayer
+                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                {sampleComplaints.map((complaint) => (
+                  <Marker key={complaint.id} position={complaint.coordinates}>
+                    <Popup>
+                      <div>
+                        <h3 className="font-semibold text-gray-800">{complaint.title}</h3>
+                        <p className="text-sm text-gray-600">{complaint.location}</p>
+                      </div>
+                    </Popup>
+                  </Marker>
+                ))}
+              </MapContainer>
             </div>
           </div>
         </div>
